@@ -1,0 +1,137 @@
+body,html{
+	height:100%;
+	width: 100%;
+}
+
+.main-container {
+	background-color: #C9E8F2;
+	width: 100%;
+	height: 100%;
+}
+
+.bed-arrangement {
+	padding-left: 30px;
+	padding-right: 30px;
+	font-size: 15px;
+}
+
+.patient-info {
+	padding: 0 15px;
+	text-align: center;
+}
+
+.patient-info h2 {
+	text-align: left;
+	font-weight: 500;
+}
+
+.bed, .bed-home {
+	padding-top: 45%;
+	background-color: black;
+}
+
+.bed-home {
+	padding-top: 80%;
+}
+
+.patient-status, .patient-status-home {
+	text-align: left;
+	padding-left: 10px;
+}
+
+.bed-status, .bed-status-home {
+	padding: 0;
+	margin-top: 5px;
+}
+
+.bed-status p, .bed-status-home p {
+	text-align: left;
+	float: left;
+	width: 90px;
+}
+
+.bed-status p.status-update, .bed-status-home p.status-update-home {
+	background-color: #53AAFF;
+	width: 35%;
+	margin-left: 5px;
+	text-align: center;
+	font-weight: 900;
+	border-radius: 5px;
+}
+
+.bed-status div, .bed-status-home div {
+	padding-left: 0;
+}
+
+.sensor-status > .col-xs-12 {
+	padding: 0;
+	margin: 0;
+}
+
+.status-title {
+	text-align: left;
+	float: left;
+	width: 150px;
+}
+
+.status-info {
+	background-color: #53AAFF;
+	width: 30%;
+	margin-left: 5px;
+	text-align: center;
+	font-weight: 900;
+	float: left;
+}
+
+.btn.btn-primary.dropdown-toggle {
+	border-radius: 0px;
+	background-color: black;
+}
+
+.log-history {
+	background-color: black;
+	margin-top: 7px;
+}
+
+.list-group-item {
+	padding: 0;
+    background: none;
+    color: white;
+    border: none;
+    line-height: 3em;
+}
+
+.sleep-graph h1 {
+	text-align: center;
+}
+
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+	.top-bar{
+		width:100%;
+	}
+	.rm_mobile{
+		display: none;
+	}
+	.i_mobile{
+		margin-bottom:0px !important;
+	}
+	.b_mobile{
+		width:100%;
+	}
+	.home_pc{
+		width:100%;
+		background: url(../img/main_bg2.png);
+		background-size:cover;
+		background-position: center right !important;
+		position:absolute;
+		z-index:-1;
+	}
+	p.home-text{
+		background: rgba(255,255,255,0.5);
+		padding: 10px;
+	}
+	.home-header{
+		text-align: center;
+	}
+}

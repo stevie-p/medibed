@@ -1,10 +1,26 @@
 <html>
 <head>
-  <link rel="stylesheet" href="/styles/styles.css"/>
+  
+  <link rel="stylesheet" href="/static/styles.css"/>
+  <title>Medibed</title>	
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+  <script type="text/javascript" src="/static/medibed.js"></script>
 </head>
 <body>
   <h1>Medibed</h1>
   <h2>Home</h2>
-  <p>Time: {{time}}</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Date & Time</th>
+        <th>Force on Pad 1</th>
+      	<th>Force on Pad 2</th>
+	<th>Total Force</th>
+	<th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="log"></tbody>
+  </table>
 </body>
 <html>
