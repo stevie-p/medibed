@@ -18,7 +18,6 @@ pin2 = 24
 pinSound = 21
 
 thresholdOccupied = 0.3 # readings over this will have status = occupied
-thresholdSound = 1 # number of cylces to trigger a sound alert
 
 thread = Thread()
 thread_stop_event = Event()
@@ -35,17 +34,18 @@ class MeasureThread(Thread):
             'forceLeg1': 0,
             'forceLeg2': 0,
             'forceTotal': 0,
-            'status': "Unknown"
-        }
+            'status': "Unknown",
+            'sound': 0
+            }
         
-				soundStart = 0
+        soundStart = 0
 				
         while not thread_stop_event.isSet():
-						data = {
+            data = {
                 'time': str(datetime.datetime.now()),
                 'forceLeg1': fsr.getForce(pin1),
                 'forceLeg2': fsr.getForce(pin2),
-								'sound': sound.getSound(pinSound)
+                'sound': sound.getSound(pinSound)
                 }
             data['forceTotal'] = round(data['forceLeg1'] + data['forceLeg2'], 3)
             if (data['forceTotal'] >= thresholdOccupied):
@@ -59,20 +59,21 @@ class MeasureThread(Thread):
 
             if (data['status'] != previous['status']):
                 socketio.emit('change', data, namespace='/medibed')
-            
-						if (data['sound']==1 && previous['sound']==0):
-							  soundStart = data['time']
-						elif (data['sound']==0 && previous['sound']==1):
-							  soundFinish = data['time']
-								soundDuration = round(soundFinish - soundStart, 2)
-								alert = {
-									'type': 'sound',
-									'time': soundStart,
-									'duration': soundDuration,
-								}
-						    socketio.emit('alert', alert, namespace='/medibed')
+
+            if (data['sound']==1 and previous['sound']==0):
+                soundStart = data['time']
+            elif (data['sound']==0 and previous['sound']==1):
+                soundFinish = data['time']
+                soundDuration = round(soundFinish - soundStart, 2)
+                alert = {
+                    'type': 'sound',
+                    'time': soundStart,
+                    'duration': soundDuration,
+                    }
+                socketio.emit('alert', alert, namespace='/medibed')
 						
             previous = data
+            time.sleep(self.delay)
 
     def run(self):
         self.reading()
@@ -98,6 +99,7 @@ def handle_connected():
     # Start the measurement thread
     if not thread.isAlive():
         print('Starting Thread')
+        thread_stop_event.clear()
         thread = MeasureThread()
         thread.start()
 

@@ -8,7 +8,7 @@ def getSound(pin):
 	GPIO.setup(pin, GPIO.IN)
 	if GPIO.input(pin) == GPIO.HIGH:
 		return 1
-	else
+	else:
 		return 0
 	
 #

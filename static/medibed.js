@@ -12,15 +12,31 @@ $(document).ready(function() {
   });
 	*/
 	socket.on('reading', function(data) {
+		console.log(data.status);
 		$("#bed1 .status").text(data.status);
+		var bedInner = $("#bed1 .bed-inner");
 		switch(data.status) {
 			case "Empty":
-				$("#bed1 .bed-inner").addClass("info");
+				bedInner.removeClass("success");
+				bedInner.addClass("info");
+				break;
 			case "Occupied":
-				$("#bed1 .bed-inner").addClass("success");
+				bedInner.removeClass("info");
+				bedInner.addClass("success");
+				break;
 		}
 		$("#bed1 .leg1").text(data.forceLeg1 + " N");
 		$("#bed1 .leg2").text(data.forceLeg2 + " N");
+		var soundSpan = $("#bed1 .sound>span");
+		switch(data.sound) {
+			case 1:
+				soundSpan.removeClass("fa-volume-off");
+				soundSpan.addClass("fa-volume-up");
+				break;
+			default:
+				soundSpan.removeClass("fa-volume-up");
+				soundSpan.addClass("fa-volume-off");
+		}
 	});
 	
 });
