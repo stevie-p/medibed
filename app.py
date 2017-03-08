@@ -4,7 +4,7 @@ from threading import Thread, Event
 import eventlet
 import datetime, time
 import RPi.GPIO as GPIO
-import fsr
+import fsr, sound
 
 eventlet.monkey_patch()
 app = Flask(__name__)
@@ -15,8 +15,10 @@ GPIO.setmode(GPIO.BCM)
 
 pin1 = 23
 pin2 = 24
+pinSound = 21
 
 thresholdOccupied = 0.3 # readings over this will have status = occupied
+thresholdSound = 1 # number of cylces to trigger a sound alert
 
 thread = Thread()
 thread_stop_event = Event()
@@ -36,11 +38,14 @@ class MeasureThread(Thread):
             'status': "Unknown"
         }
         
+				soundStart = 0
+				
         while not thread_stop_event.isSet():
-            data = {
+						data = {
                 'time': str(datetime.datetime.now()),
                 'forceLeg1': fsr.getForce(pin1),
-                'forceLeg2': fsr.getForce(pin2)
+                'forceLeg2': fsr.getForce(pin2),
+								'sound': sound.getSound(pinSound)
                 }
             data['forceTotal'] = round(data['forceLeg1'] + data['forceLeg2'], 3)
             if (data['forceTotal'] >= thresholdOccupied):
@@ -54,7 +59,19 @@ class MeasureThread(Thread):
 
             if (data['status'] != previous['status']):
                 socketio.emit('change', data, namespace='/medibed')
-
+            
+						if (data['sound']==1 && previous['sound']==0):
+							  soundStart = data['time']
+						elif (data['sound']==0 && previous['sound']==1):
+							  soundFinish = data['time']
+								soundDuration = round(soundFinish - soundStart, 2)
+								alert = {
+									'type': 'sound',
+									'time': soundStart,
+									'duration': soundDuration,
+								}
+						    socketio.emit('alert', alert, namespace='/medibed')
+						
             previous = data
 
     def run(self):
