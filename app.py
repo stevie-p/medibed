@@ -16,7 +16,7 @@ GPIO.setmode(GPIO.BCM)
 pin1 = 23
 pin2 = 24
 
-thresholdOccupied = 0.3 # readings over 0.3 will have status = occupied
+thresholdOccupied = 0.3 # readings over this will have status = occupied
 
 thread = Thread()
 thread_stop_event = Event()
@@ -42,7 +42,7 @@ class MeasureThread(Thread):
                 'forceLeg1': fsr.getForce(pin1),
                 'forceLeg2': fsr.getForce(pin2)
                 }
-            data['forceTotal'] = data['forceLeg1'] + data['forceLeg2']
+            data['forceTotal'] = round(data['forceLeg1'] + data['forceLeg2'], 3)
             if (data['forceTotal'] >= thresholdOccupied):
                 data['status'] = "Occupied"
             else:

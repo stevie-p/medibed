@@ -1,26 +1,35 @@
 <html>
 <head>
   
-  <link rel="stylesheet" href="/static/styles.css"/>
   <title>Medibed</title>	
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+  <link rel="stylesheet" type="text/css" href="/static/c3.css"/>
+  <link rel="stylesheet" href="/static/style.css"/>
+  
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
   <script type="text/javascript" src="/static/medibed.js"></script>
+  <script src="https://use.fontawesome.com/ef6e0d04e8.js"></script>
 </head>
 <body>
-  <h1>Medibed</h1>
-  <h2>Home</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Date & Time</th>
-        <th>Force on Pad 1</th>
-      	<th>Force on Pad 2</th>
-	<th>Total Force</th>
-	<th>Status</th>
-      </tr>
-    </thead>
-    <tbody id="log"></tbody>
-  </table>
+ 	<div class="container-fluid">
+ 		<div class="row">
+ 			<div class="col-xs-12 col-sm-12 col-md-4">
+ 				<table class="table table-bordered" id="bed1">
+ 					<tr class="bed-inner" style="height: 15em;">
+ 						<td colspan="2" style="vertical-align: middle;">
+ 							<div class="text-center"><span class="fa fa-bed fa-3x"></span></div>
+ 							<div class="text-center" class="status">STATUS</div>
+ 						</td>
+					</tr>
+					<tr>
+ 						<td class="leg1 text-left">- N</td>
+ 						<td class="leg2 text-right">- N</td>
+ 					</tr>
+ 				</table>
+ 			</div>	
+ 		</div>
+ 	</div>
 </body>
-<html>
+</html>
