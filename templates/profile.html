@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> MediBed </title>
+		<meta name="metaport" content="width=initial-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.js"></script>
+		<!-- Tab Image is Here -->
+		<link rel="shortcut icon" href="images/logo/meta-logo.png">
+
+		<!-- for Google -->
+		<meta name="description" content="Medibed helps you.">
+		<meta name="keywords" content="Medibed, Raspberry Pi">
+
+		<meta name="author" content="Widya Salim.">
+		<meta name="copyright" content="All works © Widya Salim 2017. Do not reproduce without consent.">
+		<meta name="application-name" content="MediBed Raspberry Pi">
+
+		<!-- for Facebook -->          
+		<meta property="og:title" content="Medibed">
+		<meta property="og:type" content="website">
+		<meta property="og:image" content="lol">
+		<meta property="og:url" content="http://">
+		<meta property="og:description" content="Medibed helps you.">
+
+	</head>
+	<!-- Body Starts Here -->
+	<body>
+		<div class="main-container">
+			<div class="row">
+				<div class="top-info col-xs-12">
+					<div class="location col-xs-4">
+						<h3> Ealing Hospital, South Wing </h3>
+					</div>
+					<div class="date col-xs-4">
+						<h3 style="text-align: center;"> Bed Number 1 </h3>
+					</div>
+					<div class="date col-xs-4">
+						<h3 style="text-align: right;"> Saturday, 21 February 2017, 12:50AM </h3>
+					</div>
+				</div>
+				<div class="patient-info-live col-xs-12">
+					<div class="patient-personal-info col-xs-12 col-md-4">
+						<h2 style="text-align: center;"> Sergei Beary </h2>
+						<div class="bed col-xs-offset-3 col-xs-6">
+						</div>
+						<div class="patient-status col-xs-offset-3 col-xs-6">
+							<table class="table">
+							    <tbody>
+							      <tr>
+							        <td><strong>Age</strong></td>
+							        <td>21</td>
+							      </tr>
+							      <tr>
+							        <td><strong>Medical History</strong></td>
+							        <td>Bla bla ate too much</td>
+							      </tr>
+							      <tr>
+							        <td><strong>Nurse on Guard</strong></td>
+							        <td>Adriana Lima</td>
+							      </tr>
+							    </tbody>
+							</table>
+						</div>
+					</div>
+					<div class="patient-personal-info col-xs-12 col-md-8">
+						<div class="sensor-feed col-xs-12 col-md-6">
+							<h2> Sensor Feed Here!! </h2>
+							<!-- Commented out until you put in script, etc. -->
+<!-- 							<div class="col-xs-12 col-sm-12 col-md-4">
+				 				<table class="table table-bordered" id="bed1">
+				 					<tr class="bed-inner" style="height: 15em;">
+				 						<td colspan="3" style="vertical-align: middle;">
+				 							<div class="text-center"><span class="fa fa-bed fa-3x"></span></div>
+				 							<div class="text-center status"></div>
+				 						</td>
+									</tr>
+									<tr>
+				 						<td class="leg1 text-left">- N</td>
+										<td class="sound text-center"><span class="fa"></span></td>
+				 						<td class="leg2 text-right">- N</td>
+				 					</tr>
+				 				</table>
+				 			</div>	 -->
+						</div>
+						<div class="incident-log col-xs-12 col-md-6">
+							<h2> Incident Log </h2>
+							<div class="dropdown">
+							  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Date
+							  <span class="caret"></span></button>
+							  <ul class="dropdown-menu">
+							    <li><a href="#">21 Feb </a></li>
+							    <li><a href="#">22 Feb </a></li>
+							    <li><a href="#">23 Feb</a></li>
+							  </ul>
+							</div>
+							<table class="table table-bordered">
+							    <thead>
+							      <tr>
+							        <th>Time</th>
+							        <th>Incident</th>
+							      </tr>
+							    </thead>
+							    <tbody>
+							      <tr>
+							        <td>John</td>
+							        <td>Doe</td>
+							      </tr>
+							      <tr>
+							        <td>Mary</td>
+							        <td>Moe</td>
+							      </tr>
+							      <tr>
+							        <td>July</td>
+							        <td>Dooley</td>
+							      </tr>
+							    </tbody>
+							</table>
+						</div>
+						<div class="graph-stream col-xs-12 col-xs-12">
+							<h2> Graph Stream </h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- Script for Smooth Scroll Starts Here -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src='css/smooth-scroll.js'></script>
+	<script>
+	$(document).ready(function() {
+		smoothScroll.init({
+			speed: 2500,
+			easing: 'easeInOutCubic',
+			offset: 0,
+			updateURL: true,
+			callbackBefore: function ( toggle, anchor ) {},
+			callbackAfter: function ( toggle, anchor ) {}
+		});
+	});
+	</script>
+	</body>
+</html>

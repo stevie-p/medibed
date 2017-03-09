@@ -1,16 +1,33 @@
 $(document).ready(function() {
   var socket = io.connect('http://' + document.domain + ':' + location.port + '/medibed');
-  /*  
-  socket.on('change', function(data) {
-    tablerow = $("<tr></tr>");
-    $("<td></td>").text(data.time).appendTo(tablerow);
-    $("<td></td>").text(data.forceLeg1).appendTo(tablerow);
-    $("<td></td>").text(data.forceLeg2).appendTo(tablerow);
-    $("<td></td>").text(data.forceTotal).appendTo(tablerow);
-    $("<td></td>").text(data.status).appendTo(tablerow);
-    $("#log").append(tablerow);
-  });
-	*/
+	
+	var connection = $('#toggle-connection');
+	socket.on('connect', function() {
+		console.log('Connected');
+		connection.removeClass('text-danger');
+		connection.addClass('text-success');
+		connection.attr('title', 'Connected. Click to disconnect.');
+		connection.find('span.sr-only').text('Connected');
+	});  
+	socket.on('disconnect', function() {
+		connection.removeClass('text-success');
+		connection.addClass('text-danger');
+		connection.attr('title', 'Disconnected. Click to connect.');
+		connection.find('span.sr-only').text('Disconnected');
+	});  
+
+	socket.on('logEvent', function(data) {
+		console.log('Event recieved', data);
+		var tablerow = $("<tr></tr>");
+		var strTime = new Date(data.time).toLocaleTimeString();
+    		$("<td></td>").text(strTime).appendTo(tablerow);
+    		$("<td></td>").text(data.message).appendTo(tablerow);
+		if(data.class) {
+			tablerow.addClass(data.class);
+		}
+    		$("#log").append(tablerow);	
+	});
+    
 	socket.on('reading', function(data) {
 		console.log(data.status);
 		$("#bed1 .status").text(data.status);

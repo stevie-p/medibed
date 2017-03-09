@@ -1,36 +1,174 @@
+<!DOCTYPE html>
 <html>
-<head>
-  
-  <title>Medibed</title>	
-  
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-  <link rel="stylesheet" type="text/css" href="/static/c3.css"/>
-  <link rel="stylesheet" href="/static/style.css"/>
-  
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
-  <script type="text/javascript" src="/static/medibed.js"></script>
-  <script src="https://use.fontawesome.com/ef6e0d04e8.js"></script>
-</head>
-<body>
- 	<div class="container-fluid">
- 		<div class="row">
- 			<div class="col-xs-12 col-sm-12 col-md-4">
- 				<table class="table table-bordered" id="bed1">
- 					<tr class="bed-inner" style="height: 15em;">
- 						<td colspan="3" style="vertical-align: middle;">
- 							<div class="text-center"><span class="fa fa-bed fa-3x"></span></div>
- 							<div class="text-center status"></div>
- 						</td>
-					</tr>
-					<tr>
- 						<td class="leg1 text-left">- N</td>
-						<td class="sound text-center"><span class="fa"></span></td>
- 						<td class="leg2 text-right">- N</td>
- 					</tr>
- 				</table>
- 			</div>	
- 		</div>
- 	</div>
-</body>
+	<head>
+		<title> MediBed </title>
+		<meta name="metaport" content="width=initial-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/static/style.css">
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+		<script type="text/javascript" src="/static/medibed.js"></script>
+		<script src="https://use.fontawesome.com/ef6e0d04e8.js"></script>
+		
+		<!-- Tab Image is Here -->
+		<link rel="shortcut icon" href="images/logo/meta-logo.png">
+
+		<!-- for Google -->
+		<meta name="description" content="Medibed helps you.">
+		<meta name="keywords" content="Medibed, Raspberry Pi">
+
+		<meta name="author" content="Widya Salim.">
+		<meta name="copyright" content="All works © Widya Salim 2017. Do not reproduce without consent.">
+		<meta name="application-name" content="MediBed Raspberry Pi">
+
+		<!-- for Facebook -->          
+		<meta property="og:title" content="Medibed">
+		<meta property="og:type" content="website">
+		<meta property="og:image" content="lol">
+		<meta property="og:url" content="http://">
+		<meta property="og:description" content="Medibed helps you.">
+
+	</head>
+	<!-- Body Starts Here -->
+	<body style="padding-top: 51px">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expnaded="false">
+						<span class="sr-only">Toggle navigation menu</span>
+						<span class="fa fa-bars"></span>
+					</button>
+					<a class="navbar-brand" href="#">
+						MediBed
+					</a>
+				</div>
+				<div class="collapse navbar-collapse" id="navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="#"><b>Ealing Hospital</b></a></li>
+						<li role="separator"><a href="#"><span class="fa fa-chevron-right"></span></a></li>
+						<li><a href="#">South Ward</a></li>
+						<li role="separator"><a href="#"><span class="fa fa-chevron-right"></span></a></li>
+						<li><a href="#">Bed 14</a></li>
+					</ul>
+					<p class="navbar-text navbar-right" id="datetime">Thursday 9th March, 2017 &middot; 11:11am</p>
+				</div>
+			</div>
+		</nav>
+		<div class="main-container container-fluid" style="padding-top: 20px">
+			<div class="row">
+				<div class="patient-personal-info col-xs-12 col-md-4">
+					<div class="panel panel-primary">
+						<div class="panel-heading">Patient Information</div>
+						<table class="table">
+							<tbody>
+								<tr>
+									<td><img src="/static/images/sergei.png" alt="Sergei"/></td>
+									<td style="font-size: 2em"><b>Sergei Meerkat</b></td>
+								</tr>
+								<tr>
+						        		<th>Age</th>
+						        		<td>77</td>
+						      		</tr>
+								<tr>
+									<th>Next of Kin</th>
+									<td>Aleksandr Orlov</td>
+								</tr>
+						      	</tbody>
+						</table>
+					</div>
+					<div class="panel panel-primary">
+						<div class="panel-heading">Care Plan</div>
+						<table class="table">
+							<tbody>
+								<tr>
+									<th scope="row">Turn Schedule</th>
+									<td>Every 2 hrs</td>
+								</tr>
+								<tr>
+						        		<th scope="row">Medication</th>
+						        		<td><ul>
+										<li>09:00 Warfarin 50mg</li>
+										<li>09:00 Clopidogrel 50mg</li>
+									</ul></td>
+						      		</tr>
+								<tr>
+									<th scope="row">Food</th>
+									<td>High protein diet</td>
+								</tr>
+								<tr>
+									<th scope="row">Fluid</th>
+									<td>1,500 ml/day</td>
+								</tr>
+						      	</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-8">
+					<div class="sensor-feed col-xs-12 col-md-6">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<span>Bed Status<span>
+								<a class="pull-right text-danger" title="Disconnected. Click to connect." id="toggle-connection">
+									<span class="sr-only">Not connected</span>
+									<span class="fa fa-circle"></span>
+								</a>
+							</div>
+					 		<table class="table table-bordered" id="bed1">
+					 			<tr class="bed-inner" style="height: 15em;">
+					 				<td colspan="3" style="vertical-align: middle;">
+					 					<div class="text-center"><span class="fa fa-bed fa-3x"></span></div>
+					 					<div class="text-center status"></div>
+					 				</td>
+								</tr>
+								<tr>
+					 				<td class="leg1 text-left" style="width: 33.33%">- N</td>
+									<td class="sound text-center" style="width: 33.33%"><span class="fa"></span></td>
+					 				<td class="leg2 text-right" style="width: 33.33%">- N</td>
+					 			</tr>
+				 			</table>
+						</div>
+				 			
+					</div>
+					<div class="incident-log col-xs-12 col-md-6">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								Log
+								<div class="dropdown pull-right log-dropdown">
+									<button class="btn btn-primary dropdown-toggle log-btn" type="button" > Date
+								  		<span class="caret"></span>
+									</button>
+								  	<ul class="dropdown-menu">
+								    		<li><a href="#">21 Feb</a></li>
+								    		<li><a href="#">22 Feb</a></li>
+								    		<li><a href="#">23 Feb</a></li>
+								  	</ul>
+								</div>
+							</div>
+							<div style="height:18em; overflow: auto;">
+								<table class="table table-bordered" style="">
+								    <thead>
+								      	<tr>
+								        	<th>Time</th>
+								        	<th>Event</th>
+								      	</tr>
+								    </thead>
+								    <tbody id="log"></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="graph-stream col-xs-12 col-xs-12">
+						<div class="panel panel-primary">
+							<div class="panel-heading">Stream</div>
+							<div class="panel-body">
+								[STREAM GRAPH GOES HERE!]
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

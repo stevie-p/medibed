@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, send, emit
 from threading import Thread, Event
-import eventlet
+import eventlet, atexit
 import datetime, time
 import RPi.GPIO as GPIO
 import fsr, sound
@@ -18,6 +18,7 @@ pin2 = 24
 pinSound = 21
 
 thresholdOccupied = 0.3 # readings over this will have status = occupied
+thresholdMovement = 0.2 # If weight shifts more than this over a period, count this as a movement
 
 thread = Thread()
 thread_stop_event = Event()
@@ -25,7 +26,25 @@ thread_stop_event = Event()
 class MeasureThread(Thread):
     def __init__(self):
         self.delay = 1
+        self.readings = []
         super(MeasureThread, self).__init__()
+
+    def addReading(self, data):
+        self.readings.append(data)
+        if (len(self.readings)>10):
+            self.readings.pop(0)
+
+    def getAverages(self):
+        averages = {
+            'leg1': 0,
+            'leg2': 0
+            }
+        for reading in self.readings:
+            averages['leg1'] += reading['forceLeg1']
+            averages['leg2'] += reading['forceLeg2']
+        averages['leg1'] = averages['leg1'] / len(self.readings)
+        averages['leg2'] = averages['leg2'] / len(self.readings)
+        return averages
 
     def reading(self):
         
@@ -41,8 +60,9 @@ class MeasureThread(Thread):
         soundStart = 0
 				
         while not thread_stop_event.isSet():
+            now = datetime.datetime.now()
             data = {
-                'time': str(datetime.datetime.now()),
+                'time': now.isoformat(),
                 'forceLeg1': fsr.getForce(pin1),
                 'forceLeg2': fsr.getForce(pin2),
                 'sound': sound.getSound(pinSound)
@@ -57,22 +77,50 @@ class MeasureThread(Thread):
 
             socketio.emit('reading', data, namespace='/medibed')
 
-            if (data['status'] != previous['status']):
-                socketio.emit('change', data, namespace='/medibed')
-
+            # Detect sound
             if (data['sound']==1 and previous['sound']==0):
-                soundStart = data['time']
+                soundStart = now
             elif (data['sound']==0 and previous['sound']==1):
-                soundFinish = data['time']
-                soundDuration = round(soundFinish - soundStart, 2)
-                alert = {
+                soundFinish = now
+                soundDuration = soundFinish - soundStart
+                event = {
                     'type': 'sound',
-                    'time': soundStart,
-                    'duration': soundDuration,
+                    'time': data['time'],
+                    'duration': str(soundDuration),
+                    'message': 'ALERT! Loud noise detected.',
+                    'class': 'danger'
                     }
-                socketio.emit('alert', alert, namespace='/medibed')
-						
+                socketio.emit('logEvent', event, namespace='/medibed')
+
+            self.addReading(data)
+            averages = self.getAverages()
+
+            # Detect status change
+            if (data['status'] != previous['status']):
+                event = {
+                    'type': 'statusChange',
+                    'time': data['time'],
+                    'message': 'Bed status changed to '+data['status'],
+                    'class': 'warning'
+                    }
+                socketio.emit('logEvent', event, namespace='/medibed')
+
+            # Detect movement
+            elif (data['forceLeg1'] > (averages['leg1'] + thresholdMovement) or 
+                data['forceLeg1'] < (averages['leg1'] - thresholdMovement) or
+                data['forceLeg2'] > (averages['leg2'] + thresholdMovement) or
+                data['forceLeg2'] < (averages['leg2'] - thresholdMovement)):
+                # Reset readings array
+                del self.readings[:]
+                event = {
+                    'type': 'movement',
+                    'time': data['time'],
+                    'message': 'Movement detected'
+                }
+                socketio.emit('logEvent', event, namespace='/medibed')
+	    				
             previous = data
+            
             time.sleep(self.delay)
 
     def run(self):
@@ -90,24 +138,31 @@ def index():
 def log():
     return render_template('log.html')
 
-@socketio.on('connect', namespace='/medibed')
-def handle_connected():
-    # Make thread global
-    global thread
-    print('Client connected')
+# Start the measurement thread
+if not thread.isAlive():
+    print('Starting Thread')
+    thread_stop_event.clear()
+    thread = MeasureThread()
+    thread.start()
 
-    # Start the measurement thread
-    if not thread.isAlive():
-        print('Starting Thread')
-        thread_stop_event.clear()
-        thread = MeasureThread()
-        thread.start()
-
-@socketio.on('disconnect', namespace='/medibed')
-def handle_disconnect():
+def interrupt():
     thread.stop()
-    print('Client disconnected')
+
+atexit.register(interrupt)
+
+#@socketio.on('connect', namespace='/medibed')
+#def handle_connected():
+    # Make thread global
+#    global thread
+#    print('Client connected')
+
+    
+
+#@socketio.on('disconnect', namespace='/medibed')
+#def handle_disconnect():
+#    thread.stop()
+#    print('Client disconnected')
 
     
 if __name__ == '__main__':
-    socketio.run(app, port=80, debug=True)
+    socketio.run(app, host='0.0.0.0', port=80, debug=True)
