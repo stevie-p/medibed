@@ -68,4 +68,15 @@ $(document).ready(function() {
 	}
 	setInterval(clock, 1000);
 	
+	setTimeout(function() {
+		addReading({
+			time: '2017-03-10T10:00:55Z',
+			forceLeg1: 2.5,
+			forceLeg2: 2.2,
+			forceTotal: 4.7,
+			status: "Occupied",
+			sound: 0
+		});
+	}, 2000);
+	
 });

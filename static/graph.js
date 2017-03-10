@@ -1,6 +1,5 @@
 $(document).ready(function() {
-  
-	chartData = [
+	var chartData = [
 		{
 			time: '2017-03-10T10:00:00Z',
 			forceLeg1: 0.2,
@@ -42,7 +41,7 @@ $(document).ready(function() {
 			sound: 0
 		}
 	];
-	
+	console.log('Generating chart');
 	var chart = c3.generate({
 		bindto: '#data-stream',
 		data: {
@@ -82,8 +81,8 @@ $(document).ready(function() {
 			right: 20
 		}
 	});
-	
-	function addReading(point) {
+
+	window.addReading = function (point) {
 		if(point.forceLeg2) point.forceLeg2 = -point.forceLeg2;
 		chartData.push(point);
 		chart.load({
@@ -93,17 +92,6 @@ $(document).ready(function() {
 				value: ['forceLeg1', 'forceLeg2']
 			}
 		});
-	}
-	
-	setTimeout(function() {
-		addReading({
-			time: '2017-03-10T10:00:55Z',
-			forceLeg1: 2.5,
-			forceLeg2: 2.2,
-			forceTotal: 4.7,
-			status: "Occupied",
-			sound: 0
-		});
-	}, 2000);
-	
+	};
+
 });
