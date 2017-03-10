@@ -29,7 +29,8 @@ $(document).ready(function() {
 	});
     
 	socket.on('reading', function(data) {
-		console.log(data.status);
+		// console.log(data.status);
+		addReading(data);
 		$("#bed1 .status").text(data.status);
 		var bedInner = $("#bed1 .bed-inner");
 		switch(data.status) {
@@ -55,5 +56,16 @@ $(document).ready(function() {
 				soundSpan.addClass("fa-volume-off");
 		}
 	});
+	
+	function clock() {
+		var d = new Date;
+		var dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+		var locale = 'en-GB';
+		var date = d.toLocaleDateString(locale, dateOptions);
+		var timeOptions = { hour: 'numeric', minute: 'numeric' };
+		var time = d.toLocaleTimeString(locale, timeOptions);
+		$("#clock").html(date + " &middot; " + time);
+	}
+	setInterval(clock, 1000);
 	
 });

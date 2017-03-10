@@ -4,12 +4,16 @@
 		<title> MediBed </title>
 		<meta name="metaport" content="width=initial-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/static/c3.css">
 		<link rel="stylesheet" type="text/css" href="/static/style.css">
 
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+		<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<script type="text/javascript" src="/static/c3.min.js"></script>
 		<script type="text/javascript" src="/static/medibed.js"></script>
+		<script type="text/javascript" src="/static/graph.js"></script>
 		<script src="https://use.fontawesome.com/ef6e0d04e8.js"></script>
 		
 		<!-- Tab Image is Here -->
@@ -52,7 +56,7 @@
 						<li role="separator"><a href="#"><span class="fa fa-chevron-right"></span></a></li>
 						<li><a href="#">Bed 14</a></li>
 					</ul>
-					<p class="navbar-text navbar-right" id="datetime">Thursday 9th March, 2017 &middot; 11:11am</p>
+					<p class="navbar-text navbar-right" id="clock"></p>
 				</div>
 			</div>
 		</nav>
@@ -109,7 +113,7 @@
 					<div class="sensor-feed col-xs-12 col-md-6">
 						<div class="panel panel-primary">
 							<div class="panel-heading">
-								<span>Bed Status<span>
+								<span>Bed Status</span>
 								<a class="pull-right text-danger" title="Disconnected. Click to connect." id="toggle-connection">
 									<span class="sr-only">Not connected</span>
 									<span class="fa fa-circle"></span>
@@ -163,7 +167,7 @@
 						<div class="panel panel-primary">
 							<div class="panel-heading">Stream</div>
 							<div class="panel-body">
-								[STREAM GRAPH GOES HERE!]
+								<div id="data-stream"></div>
 							</div>
 						</div>
 					</div>
