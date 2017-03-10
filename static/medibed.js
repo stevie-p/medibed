@@ -70,7 +70,7 @@ $(document).ready(function() {
 	
 	setTimeout(function() {
 		addReading({
-			time: '2017-03-10T10:00:55Z',
+			time: new Date('2017-03-10T10:00:55.123456'),
 			forceLeg1: 2.5,
 			forceLeg2: 2.2,
 			forceTotal: 4.7,

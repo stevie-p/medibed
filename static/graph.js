@@ -1,44 +1,29 @@
 $(document).ready(function() {
 	var chartData = [
 		{
-			time: '2017-03-10T10:00:00Z',
+			time: new Date('2017-03-10T10:00:00.123456'),
 			forceLeg1: 0.2,
-			forceLeg2: -0.2,
-			forceTotal: 0.4,
-			status: "Empty",
-			sound: 0
+			forceLeg2: -0.2
 		},
 		{
-			time: '2017-03-10T10:00:10Z',
+			time: new Date('2017-03-10T10:00:10.123456'),
 			forceLeg1: 0.3,
-			forceLeg2: -0.25,
-			forceTotal: 0.55,
-			status: "Empty",
-			sound: 0
+			forceLeg2: -0.25
 		},
 		{
-			time: '2017-03-10T10:00:20Z',
+			time: new Date('2017-03-10T10:00:20.123456'),
 			forceLeg1: 0.2,
-			forceLeg2: -0.2,
-			forceTotal: 0.4,
-			status: "Empty",
-			sound: 0
+			forceLeg2: -0.2
 		},
 		{
-			time: '2017-03-10T10:00:30Z',
+			time: new Date('2017-03-10T10:00:30.123456'),
 			forceLeg1: 0.2,
-			forceLeg2: -0.2,
-			forceTotal: 0.4,
-			status: "Empty",
-			sound: 0
+			forceLeg2: -0.2
 		},
 		{
-			time: '2017-03-10T10:00:25Z',
+			time: new Date('2017-03-10T10:00:25.123456'),
 			forceLeg1: 1.2,
-			forceLeg2: -2.2,
-			forceTotal: 2.6,
-			status: "Empty",
-			sound: 0
+			forceLeg2: -2.2
 		}
 	];
 	console.log('Generating chart');
@@ -46,7 +31,7 @@ $(document).ready(function() {
 		bindto: '#data-stream',
 		data: {
 			x: 'time',
-			xFormat: '%Y-%m-%dT%H:%M:%SZ',
+			// xFormat: '%Y-%m-%dT%H:%M:%S',
 			json: chartData,
 			keys: {
 				x: 'time',
@@ -83,8 +68,12 @@ $(document).ready(function() {
 	});
 
 	window.addReading = function (point) {
-		if(point.forceLeg2) point.forceLeg2 = -point.forceLeg2;
-		chartData.push(point);
+		console.log(point, new Date(point.time));
+		chartData.push({
+			time: new Date(point.time),
+			forceLeg1: point.forceLeg1,
+			forceLeg2: -point.forceLeg2
+		});
 		chart.load({
 			json: chartData,
 			keys: {
